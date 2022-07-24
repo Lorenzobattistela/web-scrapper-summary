@@ -9,7 +9,6 @@ class Scraper:
         self.subject = subject
 
     def getWikiPage(self):
-        print(f"https://en.wikipedia.org/wiki/{self.subject}")
         return requests.get(f"https://en.wikipedia.org/wiki/{self.subject}")
 
     def getText(self, page):
@@ -30,7 +29,7 @@ class Scraper:
 class File:
     def __init__(self, title) -> None:
         self.creationDate = datetime.datetime.now()
-        self.databasePath = f'./database/{title}.txt'
+        self.databasePath = f'../database/{title}.txt'
 
     def createFile(self, text):
         try:
