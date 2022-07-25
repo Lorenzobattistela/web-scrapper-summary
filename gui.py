@@ -19,7 +19,7 @@ class Window(QDialog):
         mainLayout.addWidget(self.buttonBox)
         self.layout = mainLayout
         self.setLayout(mainLayout)
-        
+
     def getInfo(self):
         if self.nameLineEdit.text() == "":
             message = QMessageBox()
@@ -36,19 +36,31 @@ class Window(QDialog):
             self.layout.removeWidget(self.fromGroupBox)
             self.fromGroupBox.deleteLater()
             self.fromGroupBox = None
-            button.clicked.connect(self.download)
+            button.clicked.connect(lambda: Summary.download(self.text))
             self.layout.addWidget(button)
-            
-    def download(self):
-        print(self.text)
-        return True
+    
+    
+    def addSuccessMessage(self):
+        message = QMessageBox()
+        message.setText("Your summary was downloaded.")
+        message.exec_()
     
     def createForm(self):
         layout = QFormLayout()
         layout.addRow(QLabel("Subject"), self.nameLineEdit)
         self.fromGroupBox.setLayout(layout)
 
-if __name__ == "__main__":
+class Summary:
+    def buildSummary(self):
+        # controller will receive this call and get result from model
+        return False
+            
+    def download(text):
+        # Controller will send the data that will be downloaded and view gets it from this function
+        print(text)
+        return True
+    
+def main():
     app = QApplication(sys.argv)
     window = Window()
     window.show()

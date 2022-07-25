@@ -29,15 +29,20 @@ class Scraper:
 class File:
     def __init__(self, title) -> None:
         self.creationDate = datetime.datetime.now()
-        self.databasePath = f'../database/{title}.txt'
+        self.databasePath = f'./database/{title}.txt'
 
     def createFile(self, text):
         try:
+            if self.checkFileExists() == True:
+                print('File already exists')
+                return 
             file = open(f'{self.databasePath}', 'w+')
             file.write(text)
             file.close()
+            return True
         except IOError:
             print('Something got wrong when writing your file.')
+            return
         
     def checkFileExists(self):
         return file_exists(self.databasePath)
