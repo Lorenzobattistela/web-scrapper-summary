@@ -1,6 +1,5 @@
 
 import scraper
-import sys
 
 class Controller:
     def buildSummary(self, subject):
@@ -16,5 +15,6 @@ class Controller:
         except:
             print("Something went wrong when building your summary")
             return False
+    
         
     

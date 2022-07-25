@@ -34,7 +34,6 @@ class File:
     def createFile(self, text):
         try:
             if self.checkFileExists() == True:
-                print('File already exists')
                 return True
             file = open(f'{self.databasePath}', 'w+')
             file.write(text)

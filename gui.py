@@ -2,6 +2,7 @@
 from PyQt5.QtWidgets import *
 import sys
 from controllerScrap import Controller
+import webbrowser
 
 class Window(QDialog):
     def __init__(self):
@@ -28,7 +29,7 @@ class Window(QDialog):
             message.exec_()
             
         else:
-            button = QPushButton('Build Summary', self)
+            button = QPushButton('Open Summary', self)
             button.move(50, 300)
             self.text = self.nameLineEdit.text()
             self.layout.removeWidget(self.buttonBox)
@@ -37,9 +38,9 @@ class Window(QDialog):
             self.layout.removeWidget(self.fromGroupBox)
             self.fromGroupBox.deleteLater()
             self.fromGroupBox = None
-            
             button.clicked.connect(lambda: self.buildSummary())
             self.layout.addWidget(button)
+            
     
     
     def addMessage(self, msg):
@@ -55,17 +56,17 @@ class Window(QDialog):
     def buildSummary(self):
         controlS = Controller()
         built = controlS.buildSummary(self.text)
-        if built == True:
-            self.addMessage("Your summary was built.")
-            return True
-        elif built == False:
-            self.addMessage("Something went wring building your summary.")
+        if built == False:
+            self.addMessage("Something went wrong with your summary. Try again later.")
             return False
+        self.openFile()
+        
+    def openFile(self):
+        title = self.text.replace("_", "")
+        webbrowser.open(f"./database/{title}.txt")
         
         
-    
-    def download(self, text):
-        return True
+
 
 
 def main():
