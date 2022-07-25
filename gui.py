@@ -1,6 +1,7 @@
 # importing libraries
 from PyQt5.QtWidgets import *
 import sys
+from controllerScrap import Controller
 
 class Window(QDialog):
     def __init__(self):
@@ -27,7 +28,7 @@ class Window(QDialog):
             message.exec_()
             
         else:
-            button = QPushButton('Download summary', self)
+            button = QPushButton('Build Summary', self)
             button.move(50, 300)
             self.text = self.nameLineEdit.text()
             self.layout.removeWidget(self.buttonBox)
@@ -36,13 +37,14 @@ class Window(QDialog):
             self.layout.removeWidget(self.fromGroupBox)
             self.fromGroupBox.deleteLater()
             self.fromGroupBox = None
-            button.clicked.connect(lambda: Summary.download(self.text))
+            
+            button.clicked.connect(lambda: self.buildSummary())
             self.layout.addWidget(button)
     
     
-    def addSuccessMessage(self):
+    def addMessage(self, msg):
         message = QMessageBox()
-        message.setText("Your summary was downloaded.")
+        message.setText(msg)
         message.exec_()
     
     def createForm(self):
@@ -50,16 +52,22 @@ class Window(QDialog):
         layout.addRow(QLabel("Subject"), self.nameLineEdit)
         self.fromGroupBox.setLayout(layout)
 
-class Summary:
     def buildSummary(self):
-        # controller will receive this call and get result from model
-        return False
-            
-    def download(text):
-        # Controller will send the data that will be downloaded and view gets it from this function
-        print(text)
-        return True
+        controlS = Controller()
+        built = controlS.buildSummary(self.text)
+        if built == True:
+            self.addMessage("Your summary was built.")
+            return True
+        elif built == False:
+            self.addMessage("Something went wring building your summary.")
+            return False
+        
+        
     
+    def download(self, text):
+        return True
+
+
 def main():
     app = QApplication(sys.argv)
     window = Window()

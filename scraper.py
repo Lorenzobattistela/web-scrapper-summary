@@ -35,14 +35,14 @@ class File:
         try:
             if self.checkFileExists() == True:
                 print('File already exists')
-                return 
+                return True
             file = open(f'{self.databasePath}', 'w+')
             file.write(text)
             file.close()
             return True
         except IOError:
             print('Something got wrong when writing your file.')
-            return
+            return False
         
     def checkFileExists(self):
         return file_exists(self.databasePath)
