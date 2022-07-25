@@ -1,5 +1,6 @@
 # import required modules
 import datetime
+import re
 from bs4 import BeautifulSoup
 import requests
 from os.path import exists as file_exists
@@ -19,6 +20,10 @@ class Scraper:
         for paragraph in paragraphs:
             text += f'{paragraph.get_text()}\n'
         return text
+
+    def formatText(self, text):
+        formatted_text = re.sub(r'[\[]\d{1,}[\]]', '', text)
+        return formatted_text
 
     def getTitle(self, page):
         soup = BeautifulSoup(page.content, 'html.parser')

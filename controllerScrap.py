@@ -7,9 +7,10 @@ class Controller:
             scrap = scraper.Scraper(subject)
             page = scrap.getWikiPage()
             text = scrap.getText(page)
+            formText= scrap.formatText(text)
             title = scrap.getTitle(page)
             file = scraper.File(title)
-            created = file.createFile(text)
+            created = file.createFile(formText)
             return created
                 
         except:
