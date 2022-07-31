@@ -62,7 +62,7 @@ class Window(QDialog):
         self.openFile()
         
     def openFile(self):
-        title = self.text.replace("_", "")
+        title = self.text.replace(" ", "")
         webbrowser.open(f"./database/{title}.txt")
         
         

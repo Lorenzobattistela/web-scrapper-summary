@@ -8,9 +8,14 @@ from os.path import exists as file_exists
 class Scraper:
     def __init__(self, subject) -> None:
         self.subject = subject
+        
+    def getGoogleScholarPage(self):
+        subj = self.subject.replace(" ", "+")
+        return requests.get(f"https://scholar.google.com/scholar?hl=en&q={subj}")
 
     def getWikiPage(self):
-        return requests.get(f"https://en.wikipedia.org/wiki/{self.subject}")
+        subj = self.subject.replace(" ", "_")
+        return requests.get(f"https://en.wikipedia.org/wiki/{subj}")
 
     def getText(self, page):
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -28,8 +33,17 @@ class Scraper:
     def getTitle(self, page):
         soup = BeautifulSoup(page.content, 'html.parser')
         title = (soup.find('title').get_text()).split()
-        fileTitle = f'{title[0]}{title[1]}'
+        fileTitle = f'{title[0]}'
         return fileTitle
+    
+    def getLinks(self, page):
+        links = []
+        soup = BeautifulSoup(page.content, 'html.parser')
+        for link in soup.find_all('a', 
+            attrs={'href': re.compile("^https://books.google.com")}):
+            links.append(link.get('href'))  
+        return links
+        
 
 class File:
     def __init__(self, title) -> None:
